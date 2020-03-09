@@ -14,7 +14,7 @@ namespace DetalleOrden.DAL
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite(@" DataSource = Detalle1.db");
+            optionsBuilder.UseSqlite(@" DataSource = Detalle2.db");
         }
     }
 }

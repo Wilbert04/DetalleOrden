@@ -41,23 +41,17 @@ namespace DetalleOrden.BLL
 
             try
             {
-                var Anterior =Buscar(orden.OrdenId);
 
-                foreach(var item in Anterior.Ordenes)
+                db.Database.ExecuteSqlRaw($"Delete FROM OrdenDetalle Where OrdenId={orden.OrdenId}");
+                foreach( var item in orden.Ordenes)
                 {
-                    if (!orden.Ordenes.Exists(d => d.Id == item.Id))
-                        db.Entry(item).State = EntityState.Deleted;
+                    db.Entry(item).State = EntityState.Added;
                 }
 
-                
-                foreach (var item in orden.Ordenes)
-                {
-                    var estado = item.Id > 0 ? EntityState.Modified : EntityState.Added;
-                    db.Entry(item).State = estado;
-                }
-                // Indica que se esta modificando el encabezado.
                 db.Entry(orden).State = EntityState.Modified;
                 paso = (db.SaveChanges() > 0);
+                
+                
             }
             catch (Exception)
             {

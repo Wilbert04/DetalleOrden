@@ -14,12 +14,18 @@ namespace DetalleOrden.Entidades
         public decimal Cantidad { get; set; }
         public decimal Precio{ get; set; }
 
-        public OrdenDetalle(int id, int ordenId, int productoId, decimal cantidad)
+        public OrdenDetalle()
+        {
+
+        }
+
+        public OrdenDetalle(int id, int ordenId, int productoId, decimal cantidad, decimal precio)
         {
             Id = id;
             OrdenId = ordenId;
             ProductoId = productoId;
             Cantidad = cantidad;
+            Precio = precio;
             
         }
     }

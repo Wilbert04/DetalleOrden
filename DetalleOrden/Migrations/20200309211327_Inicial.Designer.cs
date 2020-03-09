@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DetalleOrden.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20200309184049_MigracionOrden")]
-    partial class MigracionOrden
+    [Migration("20200309211327_Inicial")]
+    partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -51,6 +51,8 @@ namespace DetalleOrden.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("OrdenId");
+
+                    b.HasIndex("ClienteId");
 
                     b.ToTable("ordenTable");
                 });
@@ -98,6 +100,15 @@ namespace DetalleOrden.Migrations
                     b.HasKey("ProductoId");
 
                     b.ToTable("productoTable");
+                });
+
+            modelBuilder.Entity("DetalleOrden.Entidades.Orden", b =>
+                {
+                    b.HasOne("DetalleOrden.Entidades.Cliente", null)
+                        .WithMany("ClienteOrden")
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("DetalleOrden.Entidades.OrdenDetalle", b =>

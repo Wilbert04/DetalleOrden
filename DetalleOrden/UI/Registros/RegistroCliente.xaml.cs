@@ -36,8 +36,8 @@ namespace DetalleOrden.UI
         {
             Cliente cliente = new Cliente();
             cliente.ClienteId = Convert.ToInt32(IdTextbox.Text);
-            cliente.Direccion = string.Empty;
-            cliente.Nombre = string.Empty;
+            cliente.Direccion = DireccionTextbox.Text;
+            cliente.Nombre = NombreTextbox.Text;
             
             return cliente;
 
@@ -47,8 +47,8 @@ namespace DetalleOrden.UI
         {
 
             IdTextbox.Text = Convert.ToString(cliente.ClienteId);
-            DireccionTextbox.Text = string.Empty;
-            NombreTextbox.Text = string.Empty;
+            DireccionTextbox.Text = cliente.Direccion;
+            NombreTextbox.Text = cliente.Nombre;
 
         }
 

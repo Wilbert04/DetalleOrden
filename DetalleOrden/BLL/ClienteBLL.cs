@@ -57,13 +57,12 @@ namespace DetalleOrden.BLL
 
         public static Cliente Buscar(int id)
         {
-            Cliente producto = new Cliente();
+            Cliente cliente = new Cliente();
             Contexto db = new Contexto();
 
             try
             {
-                producto = db.clienteTable.Where(o => o.ClienteId == id)
-                    .Include(o => o.ClienteId).SingleOrDefault();
+                cliente = db.clienteTable.Find(id);
             }
             catch (Exception)
             {
@@ -73,7 +72,7 @@ namespace DetalleOrden.BLL
             {
                 db.Dispose();
             }
-            return producto;
+            return cliente;
 
         }
 

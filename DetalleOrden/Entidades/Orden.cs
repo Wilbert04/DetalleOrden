@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace DetalleOrden.Entidades
@@ -12,6 +13,7 @@ namespace DetalleOrden.Entidades
         public DateTime Fecha { get; set; }
         public int ClienteId{ get; set; }
         public decimal Monto { get; set; }
+        [ForeignKey("OrdenId")]
         public virtual List<OrdenDetalle> Ordenes{ get; set; }
 
         public Orden()

@@ -50,6 +50,8 @@ namespace DetalleOrden.Migrations
 
                     b.HasKey("OrdenId");
 
+                    b.HasIndex("ClienteId");
+
                     b.ToTable("ordenTable");
                 });
 
@@ -96,6 +98,15 @@ namespace DetalleOrden.Migrations
                     b.HasKey("ProductoId");
 
                     b.ToTable("productoTable");
+                });
+
+            modelBuilder.Entity("DetalleOrden.Entidades.Orden", b =>
+                {
+                    b.HasOne("DetalleOrden.Entidades.Cliente", null)
+                        .WithMany("ClienteOrden")
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("DetalleOrden.Entidades.OrdenDetalle", b =>

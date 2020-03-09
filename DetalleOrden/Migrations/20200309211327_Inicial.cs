@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DetalleOrden.Migrations
 {
-    public partial class MigracionOrden : Migration
+    public partial class Inicial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -22,21 +22,6 @@ namespace DetalleOrden.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ordenTable",
-                columns: table => new
-                {
-                    OrdenId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Fecha = table.Column<DateTime>(nullable: false),
-                    ClienteId = table.Column<int>(nullable: false),
-                    Monto = table.Column<decimal>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ordenTable", x => x.OrdenId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "productoTable",
                 columns: table => new
                 {
@@ -49,6 +34,27 @@ namespace DetalleOrden.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_productoTable", x => x.ProductoId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ordenTable",
+                columns: table => new
+                {
+                    OrdenId = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Fecha = table.Column<DateTime>(nullable: false),
+                    ClienteId = table.Column<int>(nullable: false),
+                    Monto = table.Column<decimal>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ordenTable", x => x.OrdenId);
+                    table.ForeignKey(
+                        name: "FK_ordenTable_clienteTable_ClienteId",
+                        column: x => x.ClienteId,
+                        principalTable: "clienteTable",
+                        principalColumn: "ClienteId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -77,13 +83,15 @@ namespace DetalleOrden.Migrations
                 name: "IX_OrdenDetalle_OrdenId",
                 table: "OrdenDetalle",
                 column: "OrdenId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ordenTable_ClienteId",
+                table: "ordenTable",
+                column: "ClienteId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "clienteTable");
-
             migrationBuilder.DropTable(
                 name: "OrdenDetalle");
 
@@ -92,6 +100,9 @@ namespace DetalleOrden.Migrations
 
             migrationBuilder.DropTable(
                 name: "ordenTable");
+
+            migrationBuilder.DropTable(
+                name: "clienteTable");
         }
     }
 }

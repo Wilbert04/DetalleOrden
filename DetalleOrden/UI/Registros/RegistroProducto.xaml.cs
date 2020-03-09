@@ -41,7 +41,7 @@ namespace DetalleOrden.UI.Registros
         {
             Producto producto = new Producto();
             producto.ProductoId = Convert.ToInt32(IdTextbox.Text);
-            producto.Descripcion = string.Empty;
+            producto.Descripcion = DescripcionTextbox.Text;
             producto.Precio = Convert.ToDecimal(PrecioTextbox.Text);
             producto.Inventario = Convert.ToDecimal(InventarioTextbox.Text);
             return producto;
@@ -51,8 +51,8 @@ namespace DetalleOrden.UI.Registros
         {
             
             IdTextbox.Text = Convert.ToString(producto.ProductoId);
-            DescripcionTextbox.Text = string.Empty;
-            PrecioTextbox.Text = Convert.ToString(producto.Descripcion);
+            DescripcionTextbox.Text = producto.Descripcion;
+            PrecioTextbox.Text = Convert.ToString(producto.Precio);
             InventarioTextbox.Text = Convert.ToString(producto.Inventario);
 
         }

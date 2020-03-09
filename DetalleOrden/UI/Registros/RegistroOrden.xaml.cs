@@ -30,6 +30,8 @@ namespace DetalleOrden.UI.Registros
 
         private void Limpiar()
         {
+            ClienteIdTextbox.Text = "0";
+            MontoTextbox.Text = " ";
             FechaPicker.SelectedDate = DateTime.Now;
             CantidadTextbox.Text = string.Empty;
             ProductoIdTextbox.Text = string.Empty;
@@ -42,6 +44,8 @@ namespace DetalleOrden.UI.Registros
         {
             Orden orden = new Orden();
             orden.OrdenId = Convert.ToInt32(IdTextbox.Text);
+            orden.ClienteId = Convert.ToInt32(ClienteIdTextbox.Text);
+            orden.Monto = Convert.ToDecimal(MontoTextbox.Text);
             orden.Fecha = Convert.ToDateTime(FechaPicker.SelectedDate);
             orden.Ordenes = this.Detalles;
 
@@ -51,13 +55,17 @@ namespace DetalleOrden.UI.Registros
         private void LlenaCampo(Orden orden)
         {
             IdTextbox.Text = Convert.ToString(orden.OrdenId);
+            ClienteIdTextbox.Text = Convert.ToString(orden.ClienteId);
+            MontoTextbox.Text = Convert.ToString(orden.Monto);
             FechaPicker.SelectedDate = orden.Fecha;
             this.Detalles = orden.Ordenes;
         }
 
+
+
         private bool ExisteEnLaBaseDatos()
         {
-            Orden orden = OrdenBLL.Buscar((int)Convert.ToInt32(IdTextbox.Text));
+            Orden orden = OrdenBLL.Buscar((int)Convert.ToInt32(ClienteIdTextbox.Text));
             return (orden != null);
         }
 
@@ -71,18 +79,45 @@ namespace DetalleOrden.UI.Registros
         {
             Limpiar();
         }
+        /*
+                private bool validar()
+                {
+                    bool paso = true;
 
+                    if (string.IsNullOrWhiteSpace(MontoTextbox.Text))
+                    {
+                        MessageBox.Show("No puede dejar campos vacios");
+                        MontoTextbox.Focus();
+                        paso = false;
+                    }
+
+                    if (string.IsNullOrWhiteSpace(ProductoIdTextbox.Text))
+                    {
+                        MessageBox.Show("No puede dejar campos vacios");
+                        ProductoIdTextbox.Focus();
+                        paso = false;
+                    }
+
+
+                    return paso;
+
+                }
+        */
         private void Button_Guardar(object sender, RoutedEventArgs e)
         {
-            Orden orden;
+            
+            Orden orden = new Orden();
             bool paso = false;
+
+           // if (!validar())
+               // return;
 
             orden = LlenaClase();
 
-
             if (IdTextbox.Text == "0")
+            {
                 paso = OrdenBLL.Guardar(orden);
-
+            }
             else
             {
                 if (!ExisteEnLaBaseDatos())
@@ -154,15 +189,16 @@ namespace DetalleOrden.UI.Registros
             if (DataGrid.SelectedItem != null)
                 this.Detalles = (List<OrdenDetalle>)DataGrid.ItemsSource;
 
-            Producto pro = ProductoBLL.Buscar(Convert.ToInt32(ProductoIdTextbox.Text));
-
+            //Producto pro = ProductoBLL.Buscar(Convert.ToInt32(ProductoIdTextbox.Text));
+            Producto producto = new Producto();
             this.Detalles.Add(
 
                 new OrdenDetalle(
                     id: 0,
                     ordenId: Convert.ToInt32(IdTextbox.Text),
                     productoId:Convert.ToInt32( ProductoIdTextbox.Text),
-                    cantidad:Convert.ToInt32(CantidadTextbox.Text)
+                    cantidad:Convert.ToInt32(CantidadTextbox.Text),
+                    precio: producto.Precio 
                   
                     ));
 
